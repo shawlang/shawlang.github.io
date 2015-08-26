@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Django站点后台管理 - 肖郎的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Django站点后台管理使用的admin这个类库。总的来说，使用admin来配置后台，分为两个部分，一个是实现后台应有的功能，另一个是实现界面样式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django站点后台管理">
+<meta property="og:url" content="http://shawlang.github.io/2015/08/23/Django中admin后台功能和界面的配置/index.html">
+<meta property="og:site_name" content="肖郎的博客">
+<meta property="og:description" content="Django站点后台管理使用的admin这个类库。总的来说，使用admin来配置后台，分为两个部分，一个是实现后台应有的功能，另一个是实现界面样式。">
+<meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/12/books_apple_free_photo-690x457.jpg">
+<meta property="og:updated_time" content="2015-08-23T02:19:31.836Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django站点后台管理">
+<meta name="twitter:description" content="Django站点后台管理使用的admin这个类库。总的来说，使用admin来配置后台，分为两个部分，一个是实现后台应有的功能，另一个是实现界面样式。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+          <a class="main-nav-link" href="/sideproject">个人项目</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <input type="text" class="st-default-search-input" />
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-Django中admin后台功能和界面的配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Django站点后台管理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/08/23/Django中admin后台功能和界面的配置/" class="article-date">
+  <time datetime="2015-08-23T01:38:24.000Z" itemprop="datePublished">2015-08-23</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django/">Django</a><span>></span><a class="article-category-link" href="/categories/Django/Django-admin/">Django admin</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/08/23/Django中admin后台功能和界面的配置/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/12/books_apple_free_photo-690x457.jpg" alt="吃完这个苹果，开始读书"></p>
+<p>Django站点后台管理使用的<code>admin</code>这个类库。总的来说，使用admin来配置后台，分为两个部分，一个是实现后台应有的功能，另一个是实现界面样式。</p>
+<a id="more"></a>
+<h3 id="一-_使用Django_admin连接数据库">一. 使用Django admin连接数据库</h3><ol>
+<li><p>确认<code>django.contrib.admin</code>在settings.py中的<code>INSTALLED_APPS</code>中。</p>
+</li>
+<li><p>确认<code>urls.py</code>已配置好后台的路由：<code>url(r&#39;^admin/&#39;, include(admin.site.urls))</code></p>
+</li>
+<li><p>在浏览器中打开<code>localhost:8000/admin</code>测试一下。</p>
+</li>
+</ol>
+<p>4.测试成功后，打开<code>admin.py</code>，进行如下配置</p>
+<pre><code><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin
+<span class="keyword">from</span> models <span class="keyword">import</span> *
+
+admin.site.register(Article)
+</code></pre><ol>
+<li>再次同步一下数据库(先<code>python manage.py makemigrations blog</code>，然后<code>python manage.py migrate blog</code>)，打开浏览器登录后台测试。</li>
+</ol>
+<h3 id="二-_使用类库修改admin后台管理的样式">二. 使用类库修改admin后台管理的样式</h3><p>因为Django是比较成熟的框架，admin都是自动生成的。定义一些样式，不是用<code>css</code>，<code>js</code>，反而是定义一些类。</p>
+<pre><code><span class="comment">#admin.py</span>
+
+<span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin
+<span class="keyword">from</span> models <span class="keyword">import</span> *
+
+<span class="class"><span class="keyword">class</span> <span class="title">ArticleAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span>
+    list_display(<span class="string">'title'</span>,<span class="string">'content'</span>,<span class="string">'pub_time'</span>)
+<span class="comment">#这里定义一个专门用来管理后Article这个数据表的样式</span>
+<span class="comment">#list_display决定并列显示多少个字段</span>
+
+admin.site.register(Article,ArticleAdmin)
+<span class="comment">#注册定义样式的类</span>
+</code></pre><h3 id="三-_参考资料">三. 参考资料</h3><p>官网：<a href="https://docs.djangoproject.com/en/1.8/ref/contrib/admin/actions/" target="_blank" rel="external">https://docs.djangoproject.com/en/1.8/ref/contrib/admin/actions/</a></p>
+<p>DjangoBook中文版：<a href="http://djangobook.py3k.cn/2.0/chapter06/" target="_blank" rel="external">http://djangobook.py3k.cn/2.0/chapter06/</a></p>
+
+      
+    </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django-admin/">Django admin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django后台管理/">Django后台管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/08/24/How-to-bypass-greatfirewall/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          How to bypass greatfirewall?
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/23/Django同步数据库的时候，提示：the-database-needs-something-to-populate-existing-rows/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Django同步数据库的时候，提示：the database needs something to populate existing rows&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 shawlang&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+
+</footer>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','hpwehiRPuuBriefhgg56','2.0.0');
+</script>
+    
+<script>
+  var disqus_developer=1;
+  var disqus_shortname = 'shawlang';
+  
+  var disqus_url = 'http://shawlang.github.io/2015/08/23/Django中admin后台功能和界面的配置/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Django开发学习笔记（2） - 肖郎的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="当在浏览器输入一个网址，发生了什么？一般来说，网址先转换为IP地址，然后通过HTTP协议发送给服务器。那么在服务器端，怎么走Django框架里的一套流程呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django开发学习笔记（2）">
+<meta property="og:url" content="http://shawlang.github.io/2015/07/01/Django开发学习笔记02/index.html">
+<meta property="og:site_name" content="肖郎的博客">
+<meta property="og:description" content="当在浏览器输入一个网址，发生了什么？一般来说，网址先转换为IP地址，然后通过HTTP协议发送给服务器。那么在服务器端，怎么走Django框架里的一套流程呢？">
+<meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2015/01/burntout2_free_photo-690x457.jpg">
+<meta property="og:image" content="https://s3.amazonaws.com/f.cl.ly/items/3V2h2z0w2h260I1q0P1I/%E8%BE%93%E5%85%A5%E4%B8%80%E4%B8%AA%E7%BD%91%E5%9D%80django%E7%A8%8B%E5%BA%8F%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B.png">
+<meta property="og:updated_time" content="2015-08-13T18:04:30.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django开发学习笔记（2）">
+<meta name="twitter:description" content="当在浏览器输入一个网址，发生了什么？一般来说，网址先转换为IP地址，然后通过HTTP协议发送给服务器。那么在服务器端，怎么走Django框架里的一套流程呢？">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+          <a class="main-nav-link" href="/sideproject">个人项目</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <input type="text" class="st-default-search-input" />
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-Django开发学习笔记02" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Django开发学习笔记（2）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/07/01/Django开发学习笔记02/" class="article-date">
+  <time datetime="2015-07-01T14:33:38.000Z" itemprop="datePublished">2015-07-01</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django/">Django</a><span>></span><a class="article-category-link" href="/categories/Django/入门学习笔记/">入门学习笔记</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/07/01/Django开发学习笔记02/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2015/01/burntout2_free_photo-690x457.jpg" alt="能站起来的小火柴"><br>当在浏览器输入一个网址，发生了什么？一般来说，网址先转换为IP地址，然后通过HTTP协议发送给服务器。那么在服务器端，怎么走Django框架里的一套流程呢？</p>
+<a id="more"></a>
+<h3 id="1-在views-py中建立一个视图函数">1.在views.py中建立一个视图函数</h3><p>因为涉及到HTTP协议，所以需要导入HttpResponse类。</p>
+<pre><code><span class="keyword">from</span> http <span class="keyword">import</span> HttpResponse
+<span class="function"><span class="keyword">def</span> <span class="title">hellodjango</span><span class="params">(request)</span>:</span>
+    <span class="keyword">return</span> HttpResponse(<span class="string">"hello I'm django"</span>)
+</code></pre><h3 id="2-在urls-py中配置URL">2.在urls.py中配置URL</h3><pre><code><span class="keyword">from</span> blog.views <span class="keyword">import</span> * <span class="comment">#把views.py中写的视图函数导入到urls.py中</span>
+url(<span class="string">r''</span>,hellodjango)
+<span class="comment">#这里url为空，这样就在浏览器中输入`localhost:8000`，就可以直接执行hellodjango视图函数。</span>
+</code></pre><h3 id="3-访问">3.访问</h3><pre><code>在windows dos条件下，启动服务器：`python manage<span class="class">.py</span> runserver`
+</code></pre><h3 id="4-总结">4.总结</h3><p>现在还没有涉及到MODEL和模板，不过当输入网址后的大致流程如下：</p>
+<p><img src="https://s3.amazonaws.com/f.cl.ly/items/3V2h2z0w2h260I1q0P1I/%E8%BE%93%E5%85%A5%E4%B8%80%E4%B8%AA%E7%BD%91%E5%9D%80django%E7%A8%8B%E5%BA%8F%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B.png" alt="当输入网址发生了什么"></p>
+
+      
+    </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/创建视图函数/">创建视图函数</a></li></ul>
+
+    </footer>
+  
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/07/02/mysql-python安装错误-fatal-error-c1083-cannot-open-include-file-config-win-h/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          mysql-python安装错误 fatal error c1083:cannot open include file:config-win.h
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/07/01/Django开发学习笔记01/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Django开发学习笔记（1）&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 shawlang&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+
+</footer>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','hpwehiRPuuBriefhgg56','2.0.0');
+</script>
+    
+<script>
+  var disqus_developer=1;
+  var disqus_shortname = 'shawlang';
+  
+  var disqus_url = 'http://shawlang.github.io/2015/07/01/Django开发学习笔记02/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
