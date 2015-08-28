@@ -5,26 +5,17 @@
   
   <title>2种方式扩展Django用户模型User - 肖郎的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。
-coding:utf-8第1种：继承抽象类AbstractUser#models.py
-from django.db import models
-from django.contrib.auth.models">
+  <meta name="description" content="Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2种方式扩展Django用户模型User">
 <meta property="og:url" content="http://shawlang.github.io/2015/08/28/Django使用继承AbstractUser自定义User/index.html">
 <meta property="og:site_name" content="肖郎的博客">
-<meta property="og:description" content="Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。
-coding:utf-8第1种：继承抽象类AbstractUser#models.py
-from django.db import models
-from django.contrib.auth.models">
+<meta property="og:description" content="Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。">
 <meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/12/xmas_decoration_3_free_photo-690x457.jpg">
-<meta property="og:updated_time" content="2015-08-28T06:11:53.466Z">
+<meta property="og:updated_time" content="2015-08-28T06:32:20.310Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2种方式扩展Django用户模型User">
-<meta name="twitter:description" content="Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。
-coding:utf-8第1种：继承抽象类AbstractUser#models.py
-from django.db import models
-from django.contrib.auth.models">
+<meta name="twitter:description" content="Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -98,7 +89,8 @@ from django.contrib.auth.models">
       
         <p><img src="http://www.designerspics.com/wp-content/uploads/2014/12/xmas_decoration_3_free_photo-690x457.jpg" alt="这个小挂件，有点像是松树球做的"></p>
 <p>Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。</p>
-<h1 id="coding:utf-8">coding:utf-8</h1><h3 id="第1种：继承抽象类AbstractUser">第1种：继承抽象类AbstractUser</h3><pre><code><span class="id">#models</span><span class="class">.py</span>
+<a id="more"></a>
+<h3 id="第1种：继承抽象类AbstractUser">第1种：继承抽象类AbstractUser</h3><pre><code><span class="id">#models</span><span class="class">.py</span>
 from django<span class="class">.db</span> import models
 from django<span class="class">.contrib</span><span class="class">.auth</span><span class="class">.models</span> import AbstractUser
 
