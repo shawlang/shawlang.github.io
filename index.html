@@ -55,6 +55,125 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-Django使用继承AbstractUser自定义User" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/28/Django使用继承AbstractUser自定义User/">2种方式扩展Django用户模型User</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/08/28/Django使用继承AbstractUser自定义User/" class="article-date">
+  <time datetime="2015-08-28T03:21:12.000Z" itemprop="datePublished">2015-08-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django/">Django</a><span>></span><a class="article-category-link" href="/categories/Django/Django-Models/">Django Models</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/08/28/Django使用继承AbstractUser自定义User/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/12/xmas_decoration_3_free_photo-690x457.jpg" alt="这个小挂件，有点像是松树球做的"></p>
+<p>Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。</p>
+<h1 id="coding:utf-8">coding:utf-8</h1><h3 id="第1种：继承抽象类AbstractUser">第1种：继承抽象类AbstractUser</h3><pre><code><span class="id">#models</span><span class="class">.py</span>
+from django<span class="class">.db</span> import models
+from django<span class="class">.contrib</span><span class="class">.auth</span><span class="class">.models</span> import AbstractUser
+
+class <span class="function"><span class="title">User</span><span class="params">(AbstractUser)</span></span>:
+    #给用户设定一个头像字段
+    avatar=models.<span class="function"><span class="title">ImageField</span><span class="params">(upload_to=<span class="string">'avatar/%Y/%m'</span>,max_length=<span class="number">100</span>,blank=True,null=True)</span></span>
+
+    #注意
+    #<span class="number">1</span>. avatar字段，虽然使用ImageField类型，但是Django会自动转化为字符类型。原理是使用upload_to参数，把用户上传路径保存到数据库中，而不是真实的图片保存到数据库中。
+    #<span class="number">2</span>. blank是针对用户的，用户可以不填写或者不上传，这样Django可以不用去验证这个字段；null是针对数据库的，指这个字段可以为空。
+
+    phone_num=models.<span class="function"><span class="title">CharField</span><span class="params">(max_length=<span class="number">11</span>,unique=True)</span></span>
+    #注意：这里为什么要把unique设置为unique呢？
+    #虽然phone_num大多数是唯一的，但是这里最主要的原因是Django要求User需要有个唯一的字段作为身份验证
+
+<span class="id">#settings</span><span class="class">.py</span>
+AUTH_USER_MODEL=<span class="string">'myapp.USER'</span>  #让django找到USER
+
+<span class="id">#admin</span><span class="class">.py</span>
+admin<span class="class">.site</span><span class="class">.register</span>(USER)  #将自定义的USER添加到admin中
+</code></pre><p>写好之后，需要同步数据库，但是同步的时候，可能会报这样的错误：</p>
+<pre><code>$ python manage<span class="class">.py</span> makemigrations polls
+Traceback (most recent call last):
+  File <span class="string">"manage.py"</span>, line <span class="number">10</span>, <span class="keyword">in</span> &lt;module&gt;
+    <span class="function"><span class="title">execute_from_command_line</span><span class="params">(sys.argv)</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/__init__.py"</span>, line <span class="number">427</span>, <span class="keyword">in</span> execute_from_command_line
+    utility.<span class="function"><span class="title">execute</span><span class="params">()</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/__init__.py"</span>, line <span class="number">419</span>, <span class="keyword">in</span> execute
+    self.<span class="function"><span class="title">fetch_command</span><span class="params">(subcommand)</span></span>.<span class="function"><span class="title">run_from_argv</span><span class="params">(self.argv)</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/base.py"</span>, line <span class="number">288</span>, <span class="keyword">in</span> run_from_argv
+    self.<span class="function"><span class="title">execute</span><span class="params">(*args, **options.__dict__)</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/base.py"</span>, line <span class="number">337</span>, <span class="keyword">in</span> execute
+    output = self.<span class="function"><span class="title">handle</span><span class="params">(*args, **options)</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/commands/makemigrations.py"</span>, line <span class="number">99</span>, <span class="keyword">in</span> handle
+    changes = autodetector.<span class="function"><span class="title">changes</span><span class="params">(graph=loader.graph, trim_to_apps=app_labels or None)</span></span>
+  File <span class="string">"/home/tim/code/django/django/db/migrations/autodetector.py"</span>, line <span class="number">36</span>, <span class="keyword">in</span> changes
+    changes = self._detect_changes()
+  File <span class="string">"/home/tim/code/django/django/db/migrations/autodetector.py"</span>, line <span class="number">53</span>, <span class="keyword">in</span> _detect_changes
+    old_apps = self<span class="class">.from_state</span><span class="class">.render</span>()
+  File <span class="string">"/home/tim/code/django/django/db/migrations/state.py"</span>, line <span class="number">83</span>, <span class="keyword">in</span> render
+    model=lookup_model
+ValueError: Lookup failed <span class="keyword">for</span> model referenced by field admin<span class="class">.LogEntry</span><span class="class">.user</span>: polls.User
+</code></pre><p>总的来说是这样的错误：</p>
+<blockquote>
+<p>ValueError: Lookup failed for model referenced by field admin.LogEntry.user: polls.User</p>
+</blockquote>
+<p>官方文档对于使用<code>AUTH_USER_MODEL</code>有个<code>warning</code>：</p>
+<blockquote>
+<p>Due to limitations of Django’s dynamic dependency feature for swappable models, you must ensure that the model referenced by AUTH_USER_MODEL is created in the first migration of its app (usually called 0001_initial); otherwise, you will have dependency issues.</p>
+</blockquote>
+<p>因为<code>AUTH_USER_MODEL=&#39;myapp.User&#39;</code>，所以要确保是第一次makemigration。</p>
+<p><a href="https://code.djangoproject.com/ticket/22563#comment:9" target="_blank" rel="external">djangoproject论坛</a>里是这么说的：</p>
+<pre><code>This <span class="keyword">is</span> actually expected; migrations don't supporting changing AUTH_USER_MODEL (<span class="keyword">or</span> any swappable model) <span class="keyword">after</span> you've made an initial migration, <span class="keyword">and</span> this has always been <span class="keyword">the</span> intention, <span class="keyword">but</span> <span class="keyword">before</span> <span class="keyword">that</span> commit we were leaking <span class="keyword">the</span> state enough <span class="keyword">that</span> <span class="keyword">it</span> worked (though <span class="keyword">it</span> would have had bugs).
+
+The key problem here <span class="keyword">is</span> <span class="keyword">that</span> AUTH_USER_MODEL directly affects ForeignKeys <span class="keyword">and</span> relationships <span class="keyword">but</span> exists outside <span class="keyword">of</span> <span class="keyword">the</span> model history - <span class="keyword">and</span> because <span class="keyword">it</span>'s <span class="keyword">not</span> versioned, changing <span class="keyword">it</span> means <span class="keyword">the</span> migrations <span class="keyword">get</span> all broken. The fix <span class="keyword">is</span> <span class="keyword">to</span> delete all migrations <span class="keyword">and</span> restart <span class="keyword">from</span> scratch <span class="keyword">if</span> you change AUTH_USER_MODEL; there's no other way <span class="keyword">of</span> guaranteeing your database <span class="keyword">is</span> correct.
+</code></pre><p>解决办法：就是除了<strong>init</strong>.py文件，删掉migrations里所有的文件，并且清空已有的数据库。重新makemigraion，就是第一次makemigrations的时候就引用AUTH_USER_MODEL的值。</p>
+<h3 id="第2种采用表OneToOne关联">第2种采用表OneToOne关联</h3><pre><code><span class="id">#models</span><span class="class">.py</span>
+from django<span class="class">.db</span> import models
+from django<span class="class">.contrib</span><span class="class">.auth</span><span class="class">.models</span> import User
+
+class <span class="function"><span class="title">Editor</span><span class="params">(models.Model)</span></span>:
+    user=models.<span class="function"><span class="title">OneToOneField</span><span class="params">(User)</span></span>
+    enroll_time=models.<span class="function"><span class="title">DateTimeField</span><span class="params">(auto_now_add=True)</span></span>
+</code></pre><h3 id="参考资料">参考资料</h3><ol>
+<li><p><a href="https://docs.djangoproject.com/en/1.8/topics/auth/customizing/#specifying-custom-user-model" target="_blank" rel="external">https://docs.djangoproject.com/en/1.8/topics/auth/customizing/#specifying-custom-user-model</a></p>
+</li>
+<li><p><a href="https://code.djangoproject.com/ticket/22563#comment:9" target="_blank" rel="external">https://code.djangoproject.com/ticket/22563#comment:9</a></p>
+</li>
+</ol>
+
+      
+    </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django-Models/">Django Models</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义User模型/">自定义User模型</a></li></ul>
+
+    </footer>
+  
+  </div>
+  
+</article>
+
+
+    
       <article id="post-给Django后台富文本编辑器添加上传文件的功能" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -87,7 +206,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="http://www.designerspics.com/wp-content/uploads/2015/07/coconuts_free_photo.jpg" alt="椰子很像板栗，椰子的英文是：Coconuts"></p>
-<p>使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就是显示图片。</p>
+<p>使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就显示图片。</p>
         
           <p class="article-more-link">
             <a href="/2015/08/26/给Django后台富文本编辑器添加上传文件的功能/#more">继续阅读</a>
@@ -510,59 +629,6 @@
     <footer class="article-footer">
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django全局信息设置/">Django全局信息设置</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
-
-    </footer>
-  
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-Django日志器的配置与使用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/21/Django日志器的配置与使用/">Django日志器的配置与使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/08/21/Django日志器的配置与使用/" class="article-date">
-  <time datetime="2015-08-20T21:25:21.000Z" itemprop="datePublished">2015-08-21</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Django/">Django</a><span>></span><a class="article-category-link" href="/categories/Django/Django日志器/">Django日志器</a>
-  </div>
-
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://shawlang.github.io/2015/08/21/Django日志器的配置与使用/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/10/butterfly_free_photo-690x457.jpg" alt="一只总体是黑色的蝴蝶"></p>
-<p>程序需要捕获异常，但是捕获的异常不能给用户看，需要单独存储为日志给程序员看。Django的日志器是如何配置和使用的呢？</p>
-        
-          <p class="article-more-link">
-            <a href="/2015/08/21/Django日志器的配置与使用/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-  
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django日志器/">Django日志器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
 
     </footer>
   

@@ -5,17 +5,17 @@
   
   <title>给Django后台富文本编辑器添加上传文件的功能 - 肖郎的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就是显示图片。">
+  <meta name="description" content="使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就显示图片。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="给Django后台富文本编辑器添加上传文件的功能">
 <meta property="og:url" content="http://shawlang.github.io/2015/08/26/给Django后台富文本编辑器添加上传文件的功能/index.html">
 <meta property="og:site_name" content="肖郎的博客">
-<meta property="og:description" content="使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就是显示图片。">
+<meta property="og:description" content="使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就显示图片。">
 <meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2015/07/coconuts_free_photo.jpg">
-<meta property="og:updated_time" content="2015-08-26T06:05:18.992Z">
+<meta property="og:updated_time" content="2015-08-26T07:24:21.200Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="给Django后台富文本编辑器添加上传文件的功能">
-<meta name="twitter:description" content="使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就是显示图片。">
+<meta name="twitter:description" content="使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就显示图片。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -88,7 +88,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="http://www.designerspics.com/wp-content/uploads/2015/07/coconuts_free_photo.jpg" alt="椰子很像板栗，椰子的英文是：Coconuts"></p>
-<p>使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就是显示图片。</p>
+<p>使用富文本编辑器上传的文件是要放到服务器上的，所以这是一个request。既然是一个request，就需要urls.py进行转发请求views.py进行处理。views.py处理完了返回一个文件所在的路径给富文本编辑器，富文本编辑器通过HTML来渲染文件，如果文件是图片，就显示图片。</p>
 <a id="more"></a>
 <p>以下以<a href="http://simditor.tower.im" target="_blank" rel="external">simditor</a>富文本编辑器为例。它上传文件的api是这样的：</p>
 <pre><code><span class="id">#upload</span>要么为<span class="tag">false</span> 要么为对象
@@ -152,10 +152,18 @@ from django<span class="class">.conf</span> import settings
 urlpatterns+=[
    <span class="function"><span class="title">url</span><span class="params">(r<span class="string">'^uploads/(?P&lt;path&gt;.*)$'</span>,diango.views.static.serve,{<span class="string">'document_root'</span>:settings.MEDIA_ROOT})</span></span>
 ]
-</code></pre><h3 id="一次性上传多个文件，如上传多张图片">一次性上传多个文件，如上传多张图片</h3><ol>
+</code></pre><h3 id="扩展：一次性上传多个文件，如上传多张图片">扩展：一次性上传多个文件，如上传多张图片</h3><ol>
 <li>simditor采用的方法是利用ajax请求多次，有几个文件就请求几次。</li>
 <li>有没有其他的方法呢？</li>
 </ol>
+<h3 id="知识点总结">知识点总结</h3><p>一、 文件对象属性和方法</p>
+<pre><code>files=request<span class="class">.Files</span><span class="class">.get</span>(<span class="string">'filename'</span>)
+</code></pre><ol>
+<li>属性：files.size,files.name,files.content_type,files.charset</li>
+<li>方法：files.read(),files.multiple_chunks(),files.chunks()</li>
+</ol>
+<p>二、 学到了simditor调用方式</p>
+<p>根据API的格式来，调用就不会出错</p>
 
       
     </div>
@@ -170,6 +178,14 @@ urlpatterns+=[
   
     
 <nav id="article-nav">
+  
+    <a href="/2015/08/28/Django使用继承AbstractUser自定义User/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          2种方式扩展Django用户模型User
+        
+      </div>
+    </a>
   
   
     <a href="/2015/08/25/Django下安装文本编辑器/" id="article-nav-older" class="article-nav-link-wrap">
