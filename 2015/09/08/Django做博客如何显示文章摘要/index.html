@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="肖郎的博客">
 <meta property="og:description" content="博客文章常要显示到分类或者首页，很多时候不需要全部显示出来，只是需要显示一个摘要。当然为了更好的SEO，单独在Models.py里面建立一个字段，每次都手动添加摘要是再好不过了。不过想偷点懒，咋办呢？">
 <meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/12/toy_car_free_photo2-690x457.jpg">
-<meta property="og:updated_time" content="2015-09-08T04:12:38.228Z">
+<meta property="og:updated_time" content="2015-09-08T04:29:06.643Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django做博客如何显示文章摘要">
 <meta name="twitter:description" content="博客文章常要显示到分类或者首页，很多时候不需要全部显示出来，只是需要显示一个摘要。当然为了更好的SEO，单独在Models.py里面建立一个字段，每次都手动添加摘要是再好不过了。不过想偷点懒，咋办呢？">
@@ -91,7 +91,7 @@
 <p>博客文章常要显示到分类或者首页，很多时候不需要全部显示出来，只是需要显示一个摘要。当然为了更好的SEO，单独在<code>Models.py</code>里面建立一个字段，每次都手动添加摘要是再好不过了。不过想偷点懒，咋办呢？</p>
 <a id="more"></a>
 <p>Django模板中有很多的有用的<strong>过滤器</strong>，比如文章字符截取过滤器：<code>truncatewords</code>,<code>truncatechars</code>,<code>truncatewords_html</code>,<code>truncatechars_html</code>。</p>
-<h3 id="Truncatewords_和_Truncatewords_html">Truncatewords 和 Truncatewords_html</h3><p>1.例如article.body是这样的：<strong> 国外框架Django is a powerful framework </strong></p>
+<h3 id="一、Truncatewords_和_Truncatewords_html">一、Truncatewords 和 Truncatewords_html</h3><p>1.例如article.body是这样的：<strong> 国外框架Django is a powerful framework </strong></p>
 <pre><code>article.body|truncateword<span class="variable">s:3</span>
 # outpu<span class="variable">t:</span> 国外框架Django <span class="keyword">is</span> <span class="keyword">a</span> ...
 </code></pre><p>可见：truncatewords对中文不奏效</p>
@@ -105,12 +105,12 @@
 国外框架Django is a powerful framework
 这是我的第一篇文章
 </code></pre><p>可见：truncatewords_html后面再用<code>safe</code>过滤器，会自动转换文章中的<code>html</code>标签。</p>
-<h3 id="Truncatechars_和_Truncatechars_html">Truncatechars 和 Truncatechars_html</h3><p>例如：article.body是这样的：<strong> 国外框架Django is a powerful framework </strong></p>
+<h3 id="二、Truncatechars_和_Truncatechars_html">二、Truncatechars 和 Truncatechars_html</h3><p>例如：article.body是这样的：<strong> 国外框架Django is a powerful framework </strong></p>
 <pre><code>article.body|<span class="string">truncatechars:</span><span class="number">8</span>
 <span class="string">output:</span> 国外框架D...  #这里<span class="string">'...'</span>也是算在整个截取的字符数内的。
 </code></pre><p>可见：truncatechars支持中文截取，但是这又英文支持不太好，有些单词被截取过后变成无意义的字符。</p>
 <p>其他Truncatechars_html和safe过滤器都与truncatewords是一样地使用。</p>
-<h3 id="自定义过滤器">自定义过滤器</h3><p>由上面实验的结果看，truncatechars对英文支持不太好，truncatewords对中文支持不太好。要是过滤器碰到英文的时候按照单词来截取，碰到中文的时候按照字符来截取就好了。</p>
+<h3 id="三、自定义过滤器">三、自定义过滤器</h3><p>由上面实验的结果看，truncatechars对英文支持不太好，truncatewords对中文支持不太好。要是过滤器碰到英文的时候按照单词来截取，碰到中文的时候按照字符来截取就好了。</p>
 <p>[以后再来亲自动手实验一下]</p>
 <h3 id="参考资料">参考资料</h3><ol>
 <li><p><a href="https://docs.djangoproject.com/en/1.8/ref/templates/builtins/#truncatechars-html" target="_blank" rel="external">https://docs.djangoproject.com/en/1.8/ref/templates/builtins/#truncatechars-html</a></p>
