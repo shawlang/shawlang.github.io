@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="肖郎的博客">
 <meta property="og:description" content="Django中利用forms.form或者ModelForm写表单，默认显示的标签名是英文，也就是字段名。如果想改成英文名怎么办呢？另外表单在模板使用forms.as_ul形式快速生成的，如果想调整字段顺序，怎么办呢？">
 <meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/12/chained_hands_free_photo1-690x457.jpg">
-<meta property="og:updated_time" content="2015-09-08T14:09:57.473Z">
+<meta property="og:updated_time" content="2015-09-08T14:13:46.264Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何调整表单字段为中文并且改变显示顺序">
 <meta name="twitter:description" content="Django中利用forms.form或者ModelForm写表单，默认显示的标签名是英文，也就是字段名。如果想改成英文名怎么办呢？另外表单在模板使用forms.as_ul形式快速生成的，如果想调整字段顺序，怎么办呢？">
@@ -94,14 +94,14 @@
 <p>1.这是给表单字段设置初始值，如果没有设置就用默认的值，其实这就是函数传参</p>
 <p>2.表单引入forms是这样写的：<code>from Django import forms</code>，<code>from Django.forms import ModelForm</code>。forms首字母是小写，ModelForm，所以forms是一个实例，ModelForm是一个类。<code>forms.CharField()</code>是forms调用CharField()方法；<code>class Meta:</code>是一个内置的类，<code>model=Comment</code>是定义这个类的类属性。从这个类名Meta，也可以知道这个类用来定义类的元数据，有点像配置站点全局信息。很不错的编程思维。</p>
 <h3 id="二、调整Django表单字段在模板中显示顺序">二、调整Django表单字段在模板中显示顺序</h3><p>在模板中如果使用手动调整字段顺序不是不可以的，如：</p>
-<pre><code><span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="comment"></span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-<span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="comment"></span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-#author和created表单字段顺序任意调
+<pre><code><span class="variable">&lt;p&gt;</span>{ { forms.author } }<span class="variable">&lt;/p&gt;</span>
+<span class="variable">&lt;p&gt;</span>{ {forms.created} }<span class="variable">&lt;/p&gt;</span>
+<span class="comment">#author和created表单字段顺序任意调</span>
 </code></pre><p>但是django中可以一次性生成表单，如：</p>
-<pre><code><span class="tag">&lt;<span class="title">form</span>&gt;</span>
-   <span class="comment"></span>
-<span class="tag">&lt;/<span class="title">form</span>&gt;</span>
-#很多表单的内容都被封装好了。
+<pre><code><span class="variable">&lt;form&gt;</span>
+   { {forms.as_ul} }
+<span class="variable">&lt;/form&gt;</span>
+<span class="comment">#很多表单的内容都被封装好了。</span>
 </code></pre><p>这时候可以在<code>forms.py</code>中定义表单字段时候使用<code>fields</code>属性调整。</p>
 <pre><code><span class="keyword">class</span> <span class="title">Meta</span>:
     <span class="title">model</span>=Comment
@@ -109,6 +109,7 @@
 <span class="preprocessor">#fields是个list，list是有顺序的。dict是无序的。</span>
 所以在fields里面确认表单字段的顺序也是有依据的。
 </code></pre><h3 id="三、总结">三、总结</h3><p>设置不复杂，但是可以学到Django的一些设计思维。</p>
+<h3 id="参考资料">参考资料</h3><p><a href="http://www.ccpt.cc/form_and_model_in_django/" target="_blank" rel="external">http://www.ccpt.cc/form_and_model_in_django/</a></p>
 
       
     </div>
