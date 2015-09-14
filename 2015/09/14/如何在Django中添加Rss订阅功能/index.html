@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="肖郎的博客">
 <meta property="og:description" content="我一般用feedly订阅文章，哎，其实已经资讯过量了。Django中有一个内置的Feed类，可以快速实现Rss订阅工具。">
 <meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/11/boats2_free_photo-690x457.jpg">
-<meta property="og:updated_time" content="2015-09-14T06:55:59.065Z">
+<meta property="og:updated_time" content="2015-09-14T10:03:45.268Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何在Django中添加Rss订阅功能">
 <meta name="twitter:description" content="我一般用feedly订阅文章，哎，其实已经资讯过量了。Django中有一个内置的Feed类，可以快速实现Rss订阅工具。">
@@ -108,7 +108,8 @@
 
     <span class="function"><span class="keyword">def</span> <span class="title">item_link</span><span class="params">(self,item)</span>:</span>
          <span class="keyword">return</span> reverse(<span class="string">'article'</span>,args=[item.pk])
-</code></pre><h3 id="第2步_配置urls-py">第2步 配置urls.py</h3><pre><code><span class="keyword">from</span> blog.views <span class="keyword">import</span> MyFeed
+</code></pre><p>自定义的类也可以单独建立文件定义，这样使应用文件结构更加清晰一点。</p>
+<h3 id="第2步_配置urls-py">第2步 配置urls.py</h3><pre><code><span class="keyword">from</span> blog.views <span class="keyword">import</span> MyFeed
 
 urlpatterns=[
   url(<span class="string">r'^feed$'</span>,MyFeed(),name=<span class="string">'rss'</span>)
