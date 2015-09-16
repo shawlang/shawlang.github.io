@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="肖郎的博客">
 <meta property="og:description" content="Django中使用函数式编程来添加分页，已经很简单了，但是基于Class Based View更加简单。">
 <meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/10/the_way_free_photo-690x457.jpg">
-<meta property="og:updated_time" content="2015-09-16T09:45:30.567Z">
+<meta property="og:updated_time" content="2015-09-16T09:50:31.265Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="怎么基于Class Based View中的ListView添加分页功能">
 <meta name="twitter:description" content="Django中使用函数式编程来添加分页，已经很简单了，但是基于Class Based View更加简单。">
@@ -105,17 +105,17 @@ class IndexListView(ListView):
    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"pagination"</span>&gt;</span>
    </span><span class="expression">{ % <span class="variable"><span class="keyword">if</span></span> <span class="variable">page</span>_<span class="variable">obj.has</span>_<span class="variable">previous</span> % }</span><span class="xml">
         <span class="tag">&lt;<span class="title">span</span>&gt;</span>
-            <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"?pages="</span>&gt;</span>上一页<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"?pages=</span></span></span><span class="expression">{ {<span class="variable">page</span>_<span class="variable">obj.previous</span>_<span class="variable">page</span>_<span class="variable">number</span>}</span><span class="xml"><span class="tag"><span class="value"> }"</span>&gt;</span>上一页<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
         <span class="tag">&lt;/<span class="title">span</span>&gt;</span>
    </span><span class="expression">{ % <span class="variable">endif</span> % }</span><span class="xml">
         <span class="tag">&lt;<span class="title">span</span>&gt;</span>
-            第<span class="comment"></span>页/总共<span class="comment"></span>页
+            第</span><span class="expression">{ {<span class="variable">page</span>_<span class="variable">obj.number</span>}</span><span class="xml"> }页/总共</span><span class="expression">{ {<span class="variable">page</span>_<span class="variable">obj.paginator.num</span>_<span class="variable">pages</span>}</span><span class="xml"> }页
         <span class="tag">&lt;/<span class="title">span</span>&gt;</span>
     </span><span class="expression">{ % <span class="variable"><span class="keyword">if</span></span> <span class="variable">page</span>_<span class="variable">obj.has</span>_<span class="variable">next</span> %}</span><span class="xml">
         <span class="tag">&lt;<span class="title">span</span>&gt;</span>
-            <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"?page="</span>&gt;</span>下一页<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"?page=</span></span></span><span class="expression">{ {<span class="variable">page</span>_<span class="variable">obj.next</span>_<span class="variable">page</span>_<span class="variable">number</span>}</span><span class="xml"><span class="tag"><span class="value"> }"</span>&gt;</span>下一页<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
         <span class="tag">&lt;/<span class="title">span</span>&gt;</span>
-    </span><span class="expression">{ % <span class="variable">endif</span> %}</span><span class="xml">
+    </span><span class="expression">{ % <span class="variable">endif</span> % }</span><span class="xml">
     <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 </span><span class="expression">{ % <span class="variable">else</span> % }</span><span class="xml">
     <span class="tag">&lt;<span class="title">p</span>&gt;</span>暂时还没有文章<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
