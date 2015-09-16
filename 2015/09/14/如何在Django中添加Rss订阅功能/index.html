@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="肖郎的博客">
 <meta property="og:description" content="我一般用feedly订阅文章，哎，其实已经资讯过量了。Django中有一个内置的Feed类，可以快速实现Rss订阅工具。">
 <meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/11/boats2_free_photo-690x457.jpg">
-<meta property="og:updated_time" content="2015-09-14T10:03:45.268Z">
+<meta property="og:updated_time" content="2015-09-16T00:46:45.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何在Django中添加Rss订阅功能">
 <meta name="twitter:description" content="我一般用feedly订阅文章，哎，其实已经资讯过量了。Django中有一个内置的Feed类，可以快速实现Rss订阅工具。">
@@ -115,7 +115,7 @@ urlpatterns=[
   url(<span class="string">r'^feed$'</span>,MyFeed(),name=<span class="string">'rss'</span>)
 ]
 </code></pre><h3 id="第3步_显示在模板上">第3步 显示在模板上</h3><pre><code><span class="tag">&lt;<span class="title">p</span>&gt;</span><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"{ % url rss % }"</span> /&gt;</span>Rsss订阅<span class="tag">&lt;/<span class="title">a</span>&gt;</span><span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-</code></pre><p>总体来说，Rss订阅器写法固定，也许是自己还没有深入理解。</p>
+</code></pre><h3 id="总结">总结</h3><p>总体来说，Rss订阅器写法固定，也许是自己还没有深入理解。</p>
 
       
     </div>
@@ -130,6 +130,14 @@ urlpatterns=[
   
     
 <nav id="article-nav">
+  
+    <a href="/2015/09/16/怎么基于Class-Based-View中的ListView添加分页功能/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          怎么基于Class Based View中的ListView添加分页功能
+        
+      </div>
+    </a>
   
   
     <a href="/2015/09/12/JS事件委托及优势/" id="article-nav-older" class="article-nav-link-wrap">

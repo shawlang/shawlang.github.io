@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>怎么基于Class Based View中的ListView添加分页功能 - 肖郎的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Django中使用函数式编程来添加分页，已经很简单了，但是基于Class Based View更加简单。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="怎么基于Class Based View中的ListView添加分页功能">
+<meta property="og:url" content="http://shawlang.github.io/2015/09/16/怎么基于Class-Based-View中的ListView添加分页功能/index.html">
+<meta property="og:site_name" content="肖郎的博客">
+<meta property="og:description" content="Django中使用函数式编程来添加分页，已经很简单了，但是基于Class Based View更加简单。">
+<meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/10/the_way_free_photo-690x457.jpg">
+<meta property="og:updated_time" content="2015-09-16T09:45:30.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="怎么基于Class Based View中的ListView添加分页功能">
+<meta name="twitter:description" content="Django中使用函数式编程来添加分页，已经很简单了，但是基于Class Based View更加简单。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+          <a class="main-nav-link" href="/sideproject">个人项目</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <input type="text" class="st-default-search-input" />
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-怎么基于Class-Based-View中的ListView添加分页功能" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      怎么基于Class Based View中的ListView添加分页功能
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/09/16/怎么基于Class-Based-View中的ListView添加分页功能/" class="article-date">
+  <time datetime="2015-09-16T08:07:59.000Z" itemprop="datePublished">2015-09-16</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django-101/">Django 101</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/09/16/怎么基于Class-Based-View中的ListView添加分页功能/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/10/the_way_free_photo-690x457.jpg" alt="曲径通幽处，禅房花木深"></p>
+<p>Django中使用函数式编程来添加分页，已经很简单了，但是基于Class Based View更加简单。</p>
+<a id="more"></a>
+<pre><code><span class="xml">#views.py
+from django.views.generic import ListView
+
+class IndexListView(ListView):
+    model=Post
+    context_object_name='posts'
+    template_name='index.html'
+    paginate_by=2  #每页2篇文章
+
+#index.html
+
+</span><span class="expression">{ % <span class="variable"><span class="keyword">if</span></span> <span class="variable">is</span>_<span class="variable">paginated</span> % }</span><span class="xml">
+   <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"pagination"</span>&gt;</span>
+   </span><span class="expression">{ % <span class="variable"><span class="keyword">if</span></span> <span class="variable">page</span>_<span class="variable">obj.has</span>_<span class="variable">previous</span> % }</span><span class="xml">
+        <span class="tag">&lt;<span class="title">span</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"?pages="</span>&gt;</span>上一页<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+   </span><span class="expression">{ % <span class="variable">endif</span> % }</span><span class="xml">
+        <span class="tag">&lt;<span class="title">span</span>&gt;</span>
+            第<span class="comment"></span>页/总共<span class="comment"></span>页
+        <span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+    </span><span class="expression">{ % <span class="variable"><span class="keyword">if</span></span> <span class="variable">page</span>_<span class="variable">obj.has</span>_<span class="variable">next</span> %}</span><span class="xml">
+        <span class="tag">&lt;<span class="title">span</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"?page="</span>&gt;</span>下一页<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">span</span>&gt;</span>
+    </span><span class="expression">{ % <span class="variable">endif</span> %}</span><span class="xml">
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</span><span class="expression">{ % <span class="variable">else</span> % }</span><span class="xml">
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>暂时还没有文章<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+</span><span class="expression">{ % <span class="variable">endif</span> % }</span><span class="xml"></span>
+</code></pre><h3 id="Class_Based_View中ListView关于分页的常用属性和方法">Class Based View中ListView关于分页的常用属性和方法</h3><ol>
+<li><p>paginate_by ：int 每页的个数</p>
+</li>
+<li><p>paginate_orphans : int 一般分页之后，最后一页可能小于每一页的个数，这时候利用这个参数将最后一页的剩余几个补到倒数第2页。</p>
+</li>
+<li><p>page_kwarg: string（default page_kwarg=page）。就是通过request.get获取当前是第几页的变量，如果shawlang.com/posts?[page]。默认是page，想修改的话可以通过这个参数来修改，注意如果这里修改了模板中a标签href也要修改。</p>
+</li>
+<li><p>paginator_class：用函数式编程，通常要导入Paginator这个类。CBV形式的编程通过这个来设置，默认的就是平常导入的类：django.core.paginator.Paginator</p>
+</li>
+</ol>
+<h3 id="参考资料">参考资料</h3><ol>
+<li><p><a href="https://docs.djangoproject.com/en/1.8/ref/class-based-views/mixins-multiple-object/#django.views.generic.list.MultipleObjectMixin.paginate_by" target="_blank" rel="external">https://docs.djangoproject.com/en/1.8/ref/class-based-views/mixins-multiple-object/#django.views.generic.list.MultipleObjectMixin.paginate_by</a></p>
+</li>
+<li><p><a href="http://ccbv.co.uk/projects/Django/1.8/django.views.generic.detail/DetailView/" target="_blank" rel="external">http://ccbv.co.uk/projects/Django/1.8/django.views.generic.detail/DetailView/</a></p>
+</li>
+</ol>
+
+      
+    </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django-CBV/">Django CBV</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/09/14/如何在Django中添加Rss订阅功能/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">如何在Django中添加Rss订阅功能&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 shawlang&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+
+</footer>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','hpwehiRPuuBriefhgg56','2.0.0');
+</script>
+    
+<script>
+  var disqus_developer=1;
+  var disqus_shortname = 'shawlang';
+  
+  var disqus_url = 'http://shawlang.github.io/2015/09/16/怎么基于Class-Based-View中的ListView添加分页功能/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
