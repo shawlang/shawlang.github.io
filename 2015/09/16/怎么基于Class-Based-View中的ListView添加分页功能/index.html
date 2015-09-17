@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="肖郎的博客">
 <meta property="og:description" content="Django中使用函数式编程来添加分页，已经很简单了，但是基于Class Based View更加简单。">
 <meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/10/the_way_free_photo-690x457.jpg">
-<meta property="og:updated_time" content="2015-09-16T09:50:31.265Z">
+<meta property="og:updated_time" content="2015-09-17T12:26:13.904Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="怎么基于Class Based View中的ListView添加分页功能">
 <meta name="twitter:description" content="Django中使用函数式编程来添加分页，已经很简单了，但是基于Class Based View更加简单。">
@@ -128,6 +128,22 @@ class IndexListView(ListView):
 <li><p>page_kwarg: string（default page_kwarg=page）。就是通过request.get获取当前是第几页的变量，如果shawlang.com/posts?[page]。默认是page，想修改的话可以通过这个参数来修改，注意如果这里修改了模板中a标签href也要修改。</p>
 </li>
 <li><p>paginator_class：用函数式编程，通常要导入Paginator这个类。CBV形式的编程通过这个来设置，默认的就是平常导入的类：django.core.paginator.Paginator</p>
+</li>
+</ol>
+<h3 id="模板中分页的方法和属性">模板中分页的方法和属性</h3><p>模板中传递过来的模板变量其实是对象，既然是对象就有属性和方法。并且这个对象既然是传递过来的，说明它们的属性和方法是和views.py和models.py中的是一样的，在views.py和models.py类中定义的，在模板中照常使用。</p>
+<p>下面是Class Based View中的属性和方法</p>
+<ol>
+<li><p>page_obj 分页对象，函数式编程中是从views.py中传递过来的具体对象，如posts那么就是{ {post} }。而在CBV中一律使用{ {page_obj} }</p>
+</li>
+<li><p>page_obj.has_previous/has_next 上下页</p>
+</li>
+<li><p>page_obj.number 当前所在页</p>
+</li>
+<li><p>page_obj.paginator.num_pages 总的页数</p>
+</li>
+<li><p>page_obj.previous_page_number/next_page_number 上一页、下一页</p>
+</li>
+<li><p>{ % if is_paginated % } 做分页需要做一个判断。如果没有文章，可以友好给用户一个小提示（hint）。</p>
 </li>
 </ol>
 <h3 id="参考资料">参考资料</h3><ol>
