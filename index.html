@@ -55,6 +55,96 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-使用get-absolute-url函数改变模板超链接硬编码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/18/使用get-absolute-url函数改变模板超链接硬编码/">使用get_absolute_url函数改变模板超链接硬编码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/09/18/使用get-absolute-url函数改变模板超链接硬编码/" class="article-date">
+  <time datetime="2015-09-17T18:53:19.000Z" itemprop="datePublished">2015-09-18</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django101/">Django101</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/09/18/使用get-absolute-url函数改变模板超链接硬编码/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.designerspics.com/photographs/lotus-bud/" alt="亲爱的小-莲-花-苞：Lotus bud"></p>
+<p>在Django模板中遇到超链接的时候，初学的时候通常这样写：href=’/posts/{ {post.id } }’。如何需要将urls.py中posts变为articles，就需要将模板中很多的超链接中的posts修改为articles，超级麻烦！所以，能不能将posts变为像post.id一样的变量呢？</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/09/18/使用get-absolute-url函数改变模板超链接硬编码/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django模板/">Django模板</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django-template/">django template</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/get-absolute-url/">get_absolute_url</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/resolve/">resolve</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/reverse/">reverse</a></li></ul>
+
+    </footer>
+  
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-怎么理解Django中的slug" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/17/怎么理解Django中的slug/">怎么理解Django中的slug</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/09/17/怎么理解Django中的slug/" class="article-date">
+  <time datetime="2015-09-17T15:26:15.000Z" itemprop="datePublished">2015-09-17</time>
+</a>
+      
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/09/17/怎么理解Django中的slug/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+  
+  </div>
+  
+</article>
+
+
+    
       <article id="post-怎么基于Class-Based-View中的ListView添加分页功能" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -478,114 +568,8 @@
 
 
     
-      <article id="post-使用内置的表单类forms生成表单" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/30/使用内置的表单类forms生成表单/">使用内置的表单类forms生成表单</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/08/30/使用内置的表单类forms生成表单/" class="article-date">
-  <time datetime="2015-08-29T19:45:09.000Z" itemprop="datePublished">2015-08-30</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Django-forms/">Django forms</a>
-  </div>
-
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://shawlang.github.io/2015/08/30/使用内置的表单类forms生成表单/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/11/fallen_leaves_free_photo-690x457.jpg" alt="降落的树叶，很熟。前脚走过后脚跟上，留下满是很清脆的声音"></p>
-<p>Django很重，是因为封装了很多常用的东西。网站中的表单是一个很常用的功能组件，如注册登录框、联系人、调查表等等都需要表单。Django可以用forms.py定义表单字段，然后可以很方便的在前台调用显示出来。</p>
-        
-          <p class="article-more-link">
-            <a href="/2015/08/30/使用内置的表单类forms生成表单/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-  
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django表单/">Django表单</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/forms/">forms</a></li></ul>
-
-    </footer>
-  
-  </div>
-  
-</article>
-
-
-    
-      <article id="post-Django使用继承AbstractUser自定义User" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/28/Django使用继承AbstractUser自定义User/">2种方式扩展Django用户模型User</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/08/28/Django使用继承AbstractUser自定义User/" class="article-date">
-  <time datetime="2015-08-28T03:21:12.000Z" itemprop="datePublished">2015-08-28</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Django/">Django</a><span>></span><a class="article-category-link" href="/categories/Django/Django-Models/">Django Models</a>
-  </div>
-
-      
-        <div class="article-comment-link-wrap">
-          <a href="http://shawlang.github.io/2015/08/28/Django使用继承AbstractUser自定义User/#disqus_thread" class="article-comment-link">评论</a>
-        </div>
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/12/xmas_decoration_3_free_photo-690x457.jpg" alt="这个小挂件，有点像是松树球做的"></p>
-<p>Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。</p>
-        
-          <p class="article-more-link">
-            <a href="/2015/08/28/Django使用继承AbstractUser自定义User/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-  
-    <footer class="article-footer">
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django-Models/">Django Models</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义User模型/">自定义User模型</a></li></ul>
-
-    </footer>
-  
-  </div>
-  
-</article>
-
-
-    
       <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
       </nav>
     </section>
     <footer id="footer">
