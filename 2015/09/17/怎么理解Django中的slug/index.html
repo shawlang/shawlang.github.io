@@ -3,18 +3,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>怎么理解Django中的slug - 肖郎的博客</title>
+  <title>怎么slugify文章的标题？ - 肖郎的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="在使用Django中DetailView这个类的时候，有属性是slug_field,slug_url_kwarg。Django中还内置了一个函数slugify，这个函数的作用是这样的：
+
+Converts to ASCII. Converts spaces to hyphens. Removes characters that aren’t alphanumerics, underscores,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="怎么理解Django中的slug">
+<meta property="og:title" content="怎么slugify文章的标题？">
 <meta property="og:url" content="http://shawlang.github.io/2015/09/17/怎么理解Django中的slug/index.html">
 <meta property="og:site_name" content="肖郎的博客">
-<meta property="og:description">
-<meta property="og:updated_time" content="2015-09-17T15:26:15.347Z">
+<meta property="og:description" content="在使用Django中DetailView这个类的时候，有属性是slug_field,slug_url_kwarg。Django中还内置了一个函数slugify，这个函数的作用是这样的：
+
+Converts to ASCII. Converts spaces to hyphens. Removes characters that aren’t alphanumerics, underscores,">
+<meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/10/after_rain_free_photo-690x457.jpg">
+<meta property="og:updated_time" content="2015-09-20T21:13:48.327Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="怎么理解Django中的slug">
-<meta name="twitter:description">
+<meta name="twitter:title" content="怎么slugify文章的标题？">
+<meta name="twitter:description" content="在使用Django中DetailView这个类的时候，有属性是slug_field,slug_url_kwarg。Django中还内置了一个函数slugify，这个函数的作用是这样的：
+
+Converts to ASCII. Converts spaces to hyphens. Removes characters that aren’t alphanumerics, underscores,">
   
   
     <link rel="icon" href="/favicon.png">
@@ -63,7 +70,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      怎么理解Django中的slug
+      怎么slugify文章的标题？
     </h1>
   
 
@@ -74,6 +81,10 @@
   <time datetime="2015-09-17T15:26:15.000Z" itemprop="datePublished">2015-09-17</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django-101/">Django 101</a>
+  </div>
+
       
         <div class="article-comment-link-wrap">
           <a href="http://shawlang.github.io/2015/09/17/怎么理解Django中的slug/#disqus_thread" class="article-comment-link">评论</a>
@@ -82,12 +93,53 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/10/after_rain_free_photo-690x457.jpg" alt="http://www.designerspics.com/wp-content/uploads/2014/10/after_rain_free_photo-690x457.jpg"></p>
+<p>在使用Django中DetailView这个类的时候，有属性是slug_field,slug_url_kwarg。Django中还内置了一个函数<code>slugify</code>，这个函数的作用是这样的：</p>
+<blockquote>
+<p>Converts to ASCII. Converts spaces to hyphens. Removes characters that aren’t alphanumerics, underscores, or hyphens. Converts to lowercase. Also strips leading and trailing whitespace.<br>slugify(value),If value is “Joel is a slug”, the output will be “joel-is-a-slug”.</p>
+</blockquote>
+<p>slugify标题对SEO非常有帮助。把有意义的标题放到url中，搜索引擎就知道抓取链接就更加精准。但是url中不能有空格，所以slugify总的来说就是把单词之间加上连字符（-）。但是我不理解的是用来传值的属性slug_url_kwarg偏要带上slug这个单词，而不是keywords之类的。</p>
+<a id="more"></a>
+<h3 id="slugify文章标题">　slugify文章标题</h3><p>假如标题是title，slugify(title)后就是一个新的值。如果需要标题slugify后的值，有两种方法，要么每次请求title的时候先调用slugify方法，即时转换；要么把slugify后的值存到数据库中，这样需要slugify后的值直接到数据库去取就可以了。加入文章很多，网站流量很大，每一次都要调用函数效率不高；所以一般采取第二种，为此Django还特地在Model里面增设了一个SlugField字段。</p>
+<pre><code><span class="id">#models</span><span class="class">.py</span>
+from django<span class="class">.template</span><span class="class">.defaultfilters</span> import slugify
+
+class <span class="function"><span class="title">Post</span><span class="params">(models.Model)</span></span>:
+    title=models.<span class="function"><span class="title">CharField</span><span class="params">(max_length=<span class="number">30</span>)</span></span>
+    slug=models.<span class="function"><span class="title">SlugField</span><span class="params">(null=True,blank=True)</span></span>
+
+    def <span class="function"><span class="title">save</span><span class="params">(self,*args,**kwargs)</span></span>:
+        <span class="keyword">if</span> not self<span class="class">.id</span>:  #这里有人建议设置这个，让每篇文章的标题只slugify一次。
+            self.slug=<span class="function"><span class="title">slugify</span><span class="params">(self.title)</span></span>
+        return <span class="function"><span class="title">super</span><span class="params">(Post,self)</span></span>.<span class="function"><span class="title">save</span><span class="params">(*args,**kwargs)</span></span>
+</code></pre><p>因为django中字段中有AutoField id，也就是有auto_increment字段，所以models.py中的类都会有默认的save()函数。如果想在Django中自动的slugify每一个post的标题，只需要重载save()函数。</p>
+<p>注意如果DetailView有个slug_field属性，且默认值是slug，所以如果在model里面设置的model.SlugField()的字段名不是slug,那么DetailView中的slug_field要做相应的改变。</p>
+<h3 id="扩展：slugify后台admin某些字段">扩展：slugify后台admin某些字段</h3><pre><code><span class="class"><span class="keyword">class</span> <span class="type">PostAdmin</span><span class="container">(<span class="title">admin</span>.<span class="type">ModelAdmin</span>)</span>:
+    prepopulated_fields={'slug':<span class="container">('<span class="title">name'</span>,)</span>}
+
+admin.site.register<span class="container">(<span class="type">Post</span>,<span class="type">PostAdmin</span>)</span></span>
+</code></pre><h3 id="参考资料">参考资料</h3><ol>
+<li><p><a href="http://stackoverflow.com/questions/837828/how-do-i-create-a-slug-in-django#" target="_blank" rel="external">http://stackoverflow.com/questions/837828/how-do-i-create-a-slug-in-django#</a></p>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/427102/what-is-a-slug-in-django" target="_blank" rel="external">http://stackoverflow.com/questions/427102/what-is-a-slug-in-django</a></p>
+</li>
+<li><p><a href="http://www.johnshiver.org/blog/django-basics-class-based-generic-views/" target="_blank" rel="external">http://www.johnshiver.org/blog/django-basics-class-based-generic-views/</a></p>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/17495299/why-slugfield-in-django" target="_blank" rel="external">http://stackoverflow.com/questions/17495299/why-slugfield-in-django</a></p>
+</li>
+<li><p><a href="https://keyerror.com/blog/automatically-generating-unique-slugs-in-django" target="_blank" rel="external">https://keyerror.com/blog/automatically-generating-unique-slugs-in-django</a></p>
+</li>
+<li><p><a href="http://ccbv.co.uk/projects/Django/1.8/django.views.generic.detail/DetailView/" target="_blank" rel="external">http://ccbv.co.uk/projects/Django/1.8/django.views.generic.detail/DetailView/</a></p>
+</li>
+</ol>
+
       
     </div>
   
     <footer class="article-footer">
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django-slug/">Django slug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/slug/">slug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/slugify/">slugify</a></li></ul>
+
     </footer>
   
   </div>

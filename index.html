@@ -116,7 +116,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/17/怎么理解Django中的slug/">怎么理解Django中的slug</a>
+      <a class="article-title" href="/2015/09/17/怎么理解Django中的slug/">怎么slugify文章的标题？</a>
     </h1>
   
 
@@ -127,6 +127,10 @@
   <time datetime="2015-09-17T15:26:15.000Z" itemprop="datePublished">2015-09-17</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django-101/">Django 101</a>
+  </div>
+
       
         <div class="article-comment-link-wrap">
           <a href="http://shawlang.github.io/2015/09/17/怎么理解Django中的slug/#disqus_thread" class="article-comment-link">评论</a>
@@ -135,9 +139,25 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/10/after_rain_free_photo-690x457.jpg" alt="http://www.designerspics.com/wp-content/uploads/2014/10/after_rain_free_photo-690x457.jpg"></p>
+<p>在使用Django中DetailView这个类的时候，有属性是slug_field,slug_url_kwarg。Django中还内置了一个函数<code>slugify</code>，这个函数的作用是这样的：</p>
+<blockquote>
+<p>Converts to ASCII. Converts spaces to hyphens. Removes characters that aren’t alphanumerics, underscores, or hyphens. Converts to lowercase. Also strips leading and trailing whitespace.<br>slugify(value),If value is “Joel is a slug”, the output will be “joel-is-a-slug”.</p>
+</blockquote>
+<p>slugify标题对SEO非常有帮助。把有意义的标题放到url中，搜索引擎就知道抓取链接就更加精准。但是url中不能有空格，所以slugify总的来说就是把单词之间加上连字符（-）。但是我不理解的是用来传值的属性slug_url_kwarg偏要带上slug这个单词，而不是keywords之类的。</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/09/17/怎么理解Django中的slug/#more">继续阅读</a>
+          </p>
         
       
     </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django-slug/">Django slug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/slug/">slug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/slugify/">slugify</a></li></ul>
+
+    </footer>
   
   </div>
   
