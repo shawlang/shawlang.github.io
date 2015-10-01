@@ -16,7 +16,7 @@ Converts to ASCII. Converts spaces to hyphens. Removes characters that aren’t 
 
 Converts to ASCII. Converts spaces to hyphens. Removes characters that aren’t alphanumerics, underscores,">
 <meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/10/after_rain_free_photo-690x457.jpg">
-<meta property="og:updated_time" content="2015-09-20T21:16:50.584Z">
+<meta property="og:updated_time" content="2015-09-20T23:04:52.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="怎么slugify文章的标题？">
 <meta name="twitter:description" content="在使用Django中DetailView这个类的时候，有属性是slug_field,slug_url_kwarg。Django中还内置了一个函数slugify，这个函数的作用是这样的：
@@ -100,7 +100,7 @@ Converts to ASCII. Converts spaces to hyphens. Removes characters that aren’t 
 </blockquote>
 <p>slugify标题对SEO非常有帮助。把有意义的标题放到url中，搜索引擎就知道抓取链接就更加精准。但是url中不能有空格，所以slugify总的来说就是把单词之间加上连字符（-）。但是我不理解的是用来传值的属性slug_url_kwarg偏要带上slug这个单词，而不是keywords之类的。</p>
 <a id="more"></a>
-<h3 id="slugify文章标题">　slugify文章标题</h3><p>假如标题是title，slugify(title)后就是一个新的值。如果需要标题slugify后的值，有两种方法，要么每次请求title的时候先调用slugify方法，即时转换；要么把slugify后的值存到数据库中，这样需要slugify后的值直接到数据库去取就可以了。加入文章很多，网站流量很大，每一次都要调用函数效率不高；所以一般采取第二种，为此Django还特地在Model里面增设了一个SlugField字段。</p>
+<h3 id="slugify文章标题">slugify文章标题</h3><p>假如标题是title，slugify(title)后就是一个新的值。如果需要标题slugify后的值，有两种方法，要么每次请求title的时候先调用slugify方法，即时转换；要么把slugify后的值存到数据库中，这样需要slugify后的值直接到数据库去取就可以了。加入文章很多，网站流量很大，每一次都要调用函数效率不高；所以一般采取第二种，为此Django还特地在Model里面增设了一个SlugField字段。</p>
 <pre><code><span class="id">#models</span><span class="class">.py</span>
 from django<span class="class">.template</span><span class="class">.defaultfilters</span> import slugify
 
@@ -109,7 +109,7 @@ class <span class="function"><span class="title">Post</span><span class="params"
     slug=models.<span class="function"><span class="title">SlugField</span><span class="params">(null=True,blank=True)</span></span>
 
     def <span class="function"><span class="title">save</span><span class="params">(self,*args,**kwargs)</span></span>:
-        <span class="keyword">if</span> not self<span class="class">.id</span>:  #这里有人建议设置这个，让每篇文章的标题只slugify一次。
+        <span class="keyword">if</span> not self<span class="class">.id</span>:  #stackoverflow有人建议设置这个，让每篇文章的标题只slugify一次。
             self.slug=<span class="function"><span class="title">slugify</span><span class="params">(self.title)</span></span>
         return <span class="function"><span class="title">super</span><span class="params">(Post,self)</span></span>.<span class="function"><span class="title">save</span><span class="params">(*args,**kwargs)</span></span>
 </code></pre><p>因为django中字段中有AutoField id，也就是有auto_increment字段，所以models.py中的类都会有默认的save()函数。如果想在Django中自动的slugify每一个post的标题，只需要重载save()函数。</p>
@@ -172,7 +172,18 @@ admin.site.register<span class="container">(<span class="type">Post</span>,<span
   </div>
 </section>
 </section>
-    <footer id="footer">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 10月2日 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3242134977510351"
+     data-ad-slot="9186297966"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<footer id="footer">
   
   <div class="outer">
     <div id="footer-info" class="inner">
