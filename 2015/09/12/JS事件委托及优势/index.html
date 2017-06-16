@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JS事件委托及优势 - 肖郎的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Js事件委托也称为事件代理，就是事件冒泡原理，将本来发生在自己身上的事件让父级元素处理。例如，ul标签下有很多li，只需要让一个ul元素进行处理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS事件委托及优势">
+<meta property="og:url" content="http://shawlang.github.io/2015/09/12/JS事件委托及优势/index.html">
+<meta property="og:site_name" content="肖郎的博客">
+<meta property="og:description" content="Js事件委托也称为事件代理，就是事件冒泡原理，将本来发生在自己身上的事件让父级元素处理。例如，ul标签下有很多li，只需要让一个ul元素进行处理。">
+<meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/08/chess_free_photo-690x457.jpg">
+<meta property="og:updated_time" content="2015-09-19T19:03:32.863Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS事件委托及优势">
+<meta name="twitter:description" content="Js事件委托也称为事件代理，就是事件冒泡原理，将本来发生在自己身上的事件让父级元素处理。例如，ul标签下有很多li，只需要让一个ul元素进行处理。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+          <a class="main-nav-link" href="/sideproject">个人项目</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <input type="text" class="st-default-search-input" />
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-JS事件委托及优势" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JS事件委托及优势
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/09/12/JS事件委托及优势/" class="article-date">
+  <time datetime="2015-09-12T02:01:28.000Z" itemprop="datePublished">2015-09-12</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Javascript/">Javascript</a><span>></span><a class="article-category-link" href="/categories/Javascript/Js事件委托/">Js事件委托</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/09/12/JS事件委托及优势/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/08/chess_free_photo-690x457.jpg" alt="来，干一盘象棋"></p>
+<p>Js事件委托也称为事件代理，就是事件冒泡原理，将本来发生在自己身上的事件让父级元素处理。例如，ul标签下有很多li，只需要让一个ul元素进行处理。</p>
+<a id="more"></a>
+<h3 id="优势一：提高性能">优势一：提高性能</h3><pre><code>#html
+&lt;ul id='ul'&gt;
+    &lt;<span class="keyword">li</span>&gt;这是第1个<span class="keyword">li</span>&lt;/<span class="keyword">li</span>&gt;
+    &lt;<span class="keyword">li</span>&gt;这是第2个<span class="keyword">li</span>&lt;/<span class="keyword">li</span>&gt;
+    &lt;<span class="keyword">li</span>&gt;这是第3个<span class="keyword">li</span>&lt;/<span class="keyword">li</span>&gt;
+    &lt;<span class="keyword">li</span>&gt;这是第4个<span class="keyword">li</span>&lt;/<span class="keyword">li</span>&gt;
+    &lt;<span class="keyword">li</span>&gt;这是第5个<span class="keyword">li</span>&lt;/<span class="keyword">li</span>&gt;
+&lt;/ul&gt;
+
+#js 不使用事件委托
+ul=ul.document.getElementById('ul');
+<span class="keyword">li</span>=ul.document.getElementsByTagName('ul');
+<span class="keyword">for</span>(<span class="keyword">var</span> i=0;i&lt;<span class="keyword">li</span>.length;i++){
+    <span class="keyword">li</span>[i].onmouserover=function(<span class="keyword">e</span>){
+        <span class="keyword">var</span> <span class="keyword">e</span>=<span class="keyword">e</span>||<span class="keyword">window</span>.event;
+        <span class="keyword">e</span>.style.background='red';
+    }
+    <span class="keyword">li</span>[i].onmouseout=function(<span class="keyword">e</span>){
+        <span class="keyword">var</span> <span class="keyword">e</span>=<span class="keyword">e</span>||<span class="keyword">window</span>.event;
+        <span class="keyword">e</span>.style.background='';
+    }
+}
+
+#js 使用事件委托
+ul=document.getElementById('ul');
+ul.onmouseover=function(<span class="keyword">e</span>){
+    <span class="keyword">var</span> a=<span class="keyword">e</span>||<span class="keyword">window</span>.event
+    <span class="keyword">var</span> target=<span class="keyword">e</span>.target||<span class="keyword">e</span>.srcElement;
+    <span class="keyword">if</span>(target.nodeName.toLowerCase()=='<span class="keyword">li</span>'){
+        target.style.background='red';
+    }
+}
+ul.onmouseout=function(<span class="keyword">e</span>){
+    <span class="keyword">var</span> a=<span class="keyword">e</span>||<span class="keyword">window</span>.event;
+    <span class="keyword">var</span> target=<span class="keyword">e</span>.target||<span class="keyword">e</span>.srcElement;
+    <span class="keyword">if</span>(target.nodeName.toLowerCase()=='<span class="keyword">li</span>'){
+        target.style.background='';
+    }
+}
+</code></pre><p>两段代码对比可见，使用事件委托少了for循环，如果网页中li特别多的话，for循环所占用的空间就越多。</p>
+<h3 id="优势二：后添加的元素也有相同的事件">优势二：后添加的元素也有相同的事件</h3><p>加入往ul里面再手动添加li，这些新添加的li与原有的li有相同的事件。</p>
+<pre><code>#html
+&lt;ul id=<span class="string">"ul"</span>&gt;
+    &lt;<span class="keyword">li</span>&gt;这是第1个<span class="keyword">li</span>&lt;/<span class="keyword">li</span>&gt;
+    &lt;<span class="keyword">li</span>&gt;这是第2个<span class="keyword">li</span>&lt;/<span class="keyword">li</span>&gt;
+    &lt;<span class="keyword">li</span>&gt;这是第3个<span class="keyword">li</span>&lt;/<span class="keyword">li</span>&gt;
+    &lt;<span class="keyword">li</span>&gt;这是第4个<span class="keyword">li</span>&lt;/<span class="keyword">li</span>&gt;
+&lt;/ul&gt;
+&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"button"</span> value=<span class="string">"添加"</span> id=<span class="string">"btn"</span> /&gt;
+
+#js
+
+ul=ul.document.getElementById('ul');
+<span class="keyword">li</span>=ul.document.getElementsByTagName('ul');
+#使用<span class="keyword">for</span>循环添加事件
+<span class="keyword">for</span>(<span class="keyword">var</span> i=0;i&lt;<span class="keyword">li</span>.length;i++){
+    <span class="keyword">li</span>[i].onmouserover=function(<span class="keyword">e</span>){
+        <span class="keyword">var</span> <span class="keyword">e</span>=<span class="keyword">e</span>||<span class="keyword">window</span>.event;
+        <span class="keyword">e</span>.style.background='red';
+    }
+    <span class="keyword">li</span>[i].onmouseout=function(<span class="keyword">e</span>){
+        <span class="keyword">var</span> <span class="keyword">e</span>=<span class="keyword">e</span>||<span class="keyword">window</span>.event;
+        <span class="keyword">e</span>.style.background='';
+    }
+}
+
+btn=document.getElementById('btn');
+btn.onclick=function(){
+    <span class="keyword">var</span> ul=document.getElementById('ul');
+    <span class="keyword">var</span> newLi=document.createElement('<span class="keyword">li</span>');
+    newLi.innerHTML=<span class="string">"I'm new li element"</span>;
+    ul.appendChild(newLi);
+}
+</code></pre><p>为什么for循环就不能让新添加的元素有原有的元素一样的事件呢？因为程序是从上往下依次执行的，后面新添加的li元素不在for循环里面。而使用事件委托借助冒泡原理，只要新添加的元素在父级元素里面，父级元素就能收到子元素的事件，从而进行事件处理。</p>
+<h3 id="总结">总结</h3><ol>
+<li>这里使用的DOM0级事件处理程序</li>
+<li>事件源(e.target||e.srcElement)：就是触发事件的本人。</li>
+<li>事件委托，对于重复的新添加节点的应用可以大大提高性能。</li>
+</ol>
+<h3 id="参考资料">参考资料</h3><p><a href="http://study.163.com/course/courseLearn.htm?courseId=742016#/learn/video?lessonId=917029&amp;courseId=742016" target="_blank" rel="external">http://study.163.com/course/courseLearn.htm?courseId=742016#/learn/video?lessonId=917029&amp;courseId=742016</a></p>
+
+      
+    </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS事件委托/">JS事件委托</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li></ul>
+
+    </footer>
+  
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/09/14/如何在Django中添加Rss订阅功能/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          如何在Django中添加Rss订阅功能
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/09/08/Django如何调整表单字段为中文并且改变显示顺序/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">如何调整表单字段为中文并且改变显示顺序&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 10月2日 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3242134977510351"
+     data-ad-slot="9186297966"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 shawlang&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+
+</footer>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','hpwehiRPuuBriefhgg56','2.0.0');
+</script>
+    
+<script>
+  var disqus_developer=1;
+  var disqus_shortname = 'shawlang';
+  
+  var disqus_url = 'http://shawlang.github.io/2015/09/12/JS事件委托及优势/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

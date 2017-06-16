@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>2种方式扩展Django用户模型User - 肖郎的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2种方式扩展Django用户模型User">
+<meta property="og:url" content="http://shawlang.github.io/2015/08/28/Django使用继承AbstractUser自定义User/index.html">
+<meta property="og:site_name" content="肖郎的博客">
+<meta property="og:description" content="Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。">
+<meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/12/xmas_decoration_3_free_photo-690x457.jpg">
+<meta property="og:updated_time" content="2015-08-28T06:34:12.963Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2种方式扩展Django用户模型User">
+<meta name="twitter:description" content="Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+          <a class="main-nav-link" href="/sideproject">个人项目</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <input type="text" class="st-default-search-input" />
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-Django使用继承AbstractUser自定义User" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      2种方式扩展Django用户模型User
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/08/28/Django使用继承AbstractUser自定义User/" class="article-date">
+  <time datetime="2015-08-28T03:21:12.000Z" itemprop="datePublished">2015-08-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django/">Django</a><span>></span><a class="article-category-link" href="/categories/Django/Django-Models/">Django Models</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/08/28/Django使用继承AbstractUser自定义User/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/12/xmas_decoration_3_free_photo-690x457.jpg" alt="这个小挂件，有点像是松树球做的"></p>
+<p>Django中扩展User Models的方式一般有3种：一是继承抽象类AbstarctUser，二是进行表与表之间的关联（一般是onetoone进行关联），另外一种就是自定义User了。</p>
+<a id="more"></a>
+<h3 id="第1种：继承抽象类AbstractUser">第1种：继承抽象类AbstractUser</h3><pre><code><span class="id">#models</span><span class="class">.py</span>
+from django<span class="class">.db</span> import models
+from django<span class="class">.contrib</span><span class="class">.auth</span><span class="class">.models</span> import AbstractUser
+
+class <span class="function"><span class="title">User</span><span class="params">(AbstractUser)</span></span>:
+    #给用户设定一个头像字段
+    avatar=models.<span class="function"><span class="title">ImageField</span><span class="params">(upload_to=<span class="string">'avatar/%Y/%m'</span>,max_length=<span class="number">100</span>,blank=True,null=True)</span></span>
+
+    #注意
+    #<span class="number">1</span>. avatar字段，虽然使用ImageField类型，但是Django会自动转化为字符类型。原理是使用upload_to参数，把用户上传路径保存到数据库中，而不是真实的图片保存到数据库中。
+    #<span class="number">2</span>. blank是针对用户的，用户可以不填写或者不上传，这样Django可以不用去验证这个字段；null是针对数据库的，指这个字段可以为空。
+
+    phone_num=models.<span class="function"><span class="title">CharField</span><span class="params">(max_length=<span class="number">11</span>,unique=True)</span></span>
+    #注意：这里为什么要把unique设置为unique呢？
+    #虽然phone_num大多数是唯一的，但是这里最主要的原因是Django要求User需要有个唯一的字段作为身份验证
+
+<span class="id">#settings</span><span class="class">.py</span>
+AUTH_USER_MODEL=<span class="string">'myapp.USER'</span>  #让django找到USER
+
+<span class="id">#admin</span><span class="class">.py</span>
+admin<span class="class">.site</span><span class="class">.register</span>(USER)  #将自定义的USER添加到admin中
+</code></pre><p>写好之后，需要同步数据库，但是同步的时候，可能会报这样的错误：</p>
+<pre><code>$ python manage<span class="class">.py</span> makemigrations polls
+Traceback (most recent call last):
+  File <span class="string">"manage.py"</span>, line <span class="number">10</span>, <span class="keyword">in</span> &lt;module&gt;
+    <span class="function"><span class="title">execute_from_command_line</span><span class="params">(sys.argv)</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/__init__.py"</span>, line <span class="number">427</span>, <span class="keyword">in</span> execute_from_command_line
+    utility.<span class="function"><span class="title">execute</span><span class="params">()</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/__init__.py"</span>, line <span class="number">419</span>, <span class="keyword">in</span> execute
+    self.<span class="function"><span class="title">fetch_command</span><span class="params">(subcommand)</span></span>.<span class="function"><span class="title">run_from_argv</span><span class="params">(self.argv)</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/base.py"</span>, line <span class="number">288</span>, <span class="keyword">in</span> run_from_argv
+    self.<span class="function"><span class="title">execute</span><span class="params">(*args, **options.__dict__)</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/base.py"</span>, line <span class="number">337</span>, <span class="keyword">in</span> execute
+    output = self.<span class="function"><span class="title">handle</span><span class="params">(*args, **options)</span></span>
+  File <span class="string">"/home/tim/code/django/django/core/management/commands/makemigrations.py"</span>, line <span class="number">99</span>, <span class="keyword">in</span> handle
+    changes = autodetector.<span class="function"><span class="title">changes</span><span class="params">(graph=loader.graph, trim_to_apps=app_labels or None)</span></span>
+  File <span class="string">"/home/tim/code/django/django/db/migrations/autodetector.py"</span>, line <span class="number">36</span>, <span class="keyword">in</span> changes
+    changes = self._detect_changes()
+  File <span class="string">"/home/tim/code/django/django/db/migrations/autodetector.py"</span>, line <span class="number">53</span>, <span class="keyword">in</span> _detect_changes
+    old_apps = self<span class="class">.from_state</span><span class="class">.render</span>()
+  File <span class="string">"/home/tim/code/django/django/db/migrations/state.py"</span>, line <span class="number">83</span>, <span class="keyword">in</span> render
+    model=lookup_model
+ValueError: Lookup failed <span class="keyword">for</span> model referenced by field admin<span class="class">.LogEntry</span><span class="class">.user</span>: polls.User
+</code></pre><p>总的来说是这样的错误：</p>
+<blockquote>
+<p>ValueError: Lookup failed for model referenced by field admin.LogEntry.user: polls.User</p>
+</blockquote>
+<p>官方文档对于使用<code>AUTH_USER_MODEL</code>有个<code>warning</code>：</p>
+<blockquote>
+<p>Due to limitations of Django’s dynamic dependency feature for swappable models, you must ensure that the model referenced by AUTH_USER_MODEL is created in the first migration of its app (usually called 0001_initial); otherwise, you will have dependency issues.</p>
+</blockquote>
+<p>因为<code>AUTH_USER_MODEL=&#39;myapp.User&#39;</code>，所以要确保是第一次makemigration。</p>
+<p><a href="https://code.djangoproject.com/ticket/22563#comment:9" target="_blank" rel="external">djangoproject论坛</a>里是这么说的：</p>
+<pre><code>This <span class="keyword">is</span> actually expected; migrations don't supporting changing AUTH_USER_MODEL (<span class="keyword">or</span> any swappable model) <span class="keyword">after</span> you've made an initial migration, 
+<span class="keyword">and</span> this has always been <span class="keyword">the</span> intention, <span class="keyword">but</span> <span class="keyword">before</span> <span class="keyword">that</span> commit we were leaking <span class="keyword">the</span> state enough <span class="keyword">that</span> <span class="keyword">it</span> worked (though <span class="keyword">it</span> would have had bugs).
+
+The key problem here <span class="keyword">is</span> <span class="keyword">that</span> AUTH_USER_MODEL directly affects ForeignKeys <span class="keyword">and</span> relationships <span class="keyword">but</span> exists outside <span class="keyword">of</span> <span class="keyword">the</span> model history 
+<span class="keyword">and</span> because <span class="keyword">it</span>'s <span class="keyword">not</span> versioned, changing <span class="keyword">it</span> means <span class="keyword">the</span> migrations <span class="keyword">get</span> all broken.
+The fix <span class="keyword">is</span> <span class="keyword">to</span> delete all migrations <span class="keyword">and</span> restart <span class="keyword">from</span> scratch <span class="keyword">if</span> you change AUTH_USER_MODEL; there's no other way <span class="keyword">of</span> guaranteeing your database <span class="keyword">is</span> correct.
+</code></pre><p>解决办法：就是除了<strong>init</strong>.py文件，删掉migrations里所有的文件，并且清空已有的数据库。重新makemigraion，就是第一次makemigrations的时候就引用AUTH_USER_MODEL的值。</p>
+<h3 id="第2种采用表OneToOne关联">第2种采用表OneToOne关联</h3><pre><code><span class="id">#models</span><span class="class">.py</span>
+from django<span class="class">.db</span> import models
+from django<span class="class">.contrib</span><span class="class">.auth</span><span class="class">.models</span> import User
+
+class <span class="function"><span class="title">Editor</span><span class="params">(models.Model)</span></span>:
+    user=models.<span class="function"><span class="title">OneToOneField</span><span class="params">(User)</span></span>
+    enroll_time=models.<span class="function"><span class="title">DateTimeField</span><span class="params">(auto_now_add=True)</span></span>
+</code></pre><h3 id="参考资料">参考资料</h3><ol>
+<li><p><a href="https://docs.djangoproject.com/en/1.8/topics/auth/customizing/#specifying-custom-user-model" target="_blank" rel="external">https://docs.djangoproject.com/en/1.8/topics/auth/customizing/#specifying-custom-user-model</a></p>
+</li>
+<li><p><a href="https://code.djangoproject.com/ticket/22563#comment:9" target="_blank" rel="external">https://code.djangoproject.com/ticket/22563#comment:9</a></p>
+</li>
+</ol>
+
+      
+    </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django-Models/">Django Models</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义User模型/">自定义User模型</a></li></ul>
+
+    </footer>
+  
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/08/30/使用内置的表单类forms生成表单/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          使用内置的表单类forms生成表单
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/26/给Django后台富文本编辑器添加上传文件的功能/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">给Django后台富文本编辑器添加上传文件的功能&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 10月2日 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3242134977510351"
+     data-ad-slot="9186297966"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 shawlang&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+
+</footer>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','hpwehiRPuuBriefhgg56','2.0.0');
+</script>
+    
+<script>
+  var disqus_developer=1;
+  var disqus_shortname = 'shawlang';
+  
+  var disqus_url = 'http://shawlang.github.io/2015/08/28/Django使用继承AbstractUser自定义User/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Python内置和自定义的数据结构 - 肖郎的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="数据结构是一种数据的组织方式，既数据的存储方式，在程序中处于静态。一般通过算法来动态操作数据结构。Python中的数据结构分为两种：内置的（built in）数据结构，如列表（List），元组（Tuple），字典（Dict）；自定义的数据结构，如栈（Stack），队列（Queue），树（Tree）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python内置和自定义的数据结构">
+<meta property="og:url" content="http://shawlang.github.io/2015/06/19/Python自定义的数据结构/index.html">
+<meta property="og:site_name" content="肖郎的博客">
+<meta property="og:description" content="数据结构是一种数据的组织方式，既数据的存储方式，在程序中处于静态。一般通过算法来动态操作数据结构。Python中的数据结构分为两种：内置的（built in）数据结构，如列表（List），元组（Tuple），字典（Dict）；自定义的数据结构，如栈（Stack），队列（Queue），树（Tree）。">
+<meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2015/06/Ship-entering-port_free_photo.jpg">
+<meta property="og:updated_time" content="2015-08-13T18:02:51.511Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python内置和自定义的数据结构">
+<meta name="twitter:description" content="数据结构是一种数据的组织方式，既数据的存储方式，在程序中处于静态。一般通过算法来动态操作数据结构。Python中的数据结构分为两种：内置的（built in）数据结构，如列表（List），元组（Tuple），字典（Dict）；自定义的数据结构，如栈（Stack），队列（Queue），树（Tree）。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+          <a class="main-nav-link" href="/sideproject">个人项目</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <input type="text" class="st-default-search-input" />
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-Python自定义的数据结构" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python内置和自定义的数据结构
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/06/19/Python自定义的数据结构/" class="article-date">
+  <time datetime="2015-06-19T09:03:21.000Z" itemprop="datePublished">2015-06-19</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Python/">Python</a><span>></span><a class="article-category-link" href="/categories/Python/数据结构/">数据结构</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/06/19/Python自定义的数据结构/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2015/06/Ship-entering-port_free_photo.jpg" alt="货船"><br>数据结构是一种数据的组织方式，既数据的存储方式，在程序中处于静态。一般通过算法来动态操作数据结构。Python中的数据结构分为两种：内置的（built in）数据结构，如列表（List），元组（Tuple），字典（Dict）；自定义的数据结构，如栈（Stack），队列（Queue），树（Tree）。</p>
+<a id="more"></a>
+<h4 id="内置的数据结构">内置的数据结构</h4><ol>
+<li><p>形式。列表：newlist=[1,2,3]；元组：newtuple=(4,5,6)；字典：newdic={‘key1’:’value1’,’key2’:’value2’,’key3’:’value3’}</p>
+</li>
+<li><p>区别。列表和字典是可以更改的，两端开口，而元组一旦定义好了，就不可以更改的，两端封闭。</p>
+</li>
+</ol>
+<h4 id="自定义的数据结构">自定义的数据结构</h4><ol>
+<li><p>栈（stack）：一端开口，一端闭合。开口称为“栈顶”，数据从栈顶进，称为入栈或者压栈或者进栈；底端称为“栈底”，在栈底可以删除数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stack</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,size)</span>:</span></span><br><span class="line">	    self.stack=[]</span><br><span class="line">	    self.size=size</span><br><span class="line">	    self.stack_top=-<span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">full</span><span class="params">(self)</span>:</span></span><br><span class="line">	    <span class="keyword">if</span> self.stack_top==self.size-<span class="number">1</span>:</span><br><span class="line">	        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">	    <span class="keyword">else</span>:</span><br><span class="line">		    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">empty</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.stack_top==-<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self,data)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.full():</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'stack is full'</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.stack.append(data)</span><br><span class="line">            self.stack_top+=<span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">exit</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.empty():</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'stack is empty'</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.stack_top-=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>队列（Queue）：两端开口，但是数据流向是单向的。一端插入数据，插入数据的这段称为“队尾”；一端删除数据，这一端称为“队首”。数据只能从队尾进队首出。空队列，最开始的位置在队首。</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Queue</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,size)</span>:</span></span><br><span class="line">        self.queue=[]</span><br><span class="line">        self.size=size</span><br><span class="line">        self.head=-<span class="number">1</span></span><br><span class="line">        self.tail=-<span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">full</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.tail-self.head==self.size:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">empty</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.head==self.tail:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">enqueue</span><span class="params">(self,data)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.full():</span><br><span class="line">            <span class="keyword">print</span> <span class="string">"sorry,queue is full"</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.queue.append(data)</span><br><span class="line">            self.tail+=<span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dequeue</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.empty():</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Oh!queue has been empty'</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.head+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>数据结构有待加强学习！</p>
+
+      
+    </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/栈和队列/">栈和队列</a></li></ul>
+
+    </footer>
+  
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/22/正在表达式基本使用方法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          正在表达式基本使用方法总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/06/14/书信手写体标准格式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">书信手写体标准格式，中文Email也可借鉴一二&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 10月2日 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3242134977510351"
+     data-ad-slot="9186297966"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 shawlang&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+
+</footer>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','hpwehiRPuuBriefhgg56','2.0.0');
+</script>
+    
+<script>
+  var disqus_developer=1;
+  var disqus_shortname = 'shawlang';
+  
+  var disqus_url = 'http://shawlang.github.io/2015/06/19/Python自定义的数据结构/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
