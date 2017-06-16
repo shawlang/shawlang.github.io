@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>如何调整表单字段为中文并且改变显示顺序 - 肖郎的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Django中利用forms.form或者ModelForm写表单，默认显示的标签名是英文，也就是字段名。如果想改成英文名怎么办呢？另外表单在模板使用forms.as_ul形式快速生成的，如果想调整字段顺序，怎么办呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何调整表单字段为中文并且改变显示顺序">
+<meta property="og:url" content="http://shawlang.github.io/2015/09/08/Django如何调整表单字段为中文并且改变显示顺序/index.html">
+<meta property="og:site_name" content="肖郎的博客">
+<meta property="og:description" content="Django中利用forms.form或者ModelForm写表单，默认显示的标签名是英文，也就是字段名。如果想改成英文名怎么办呢？另外表单在模板使用forms.as_ul形式快速生成的，如果想调整字段顺序，怎么办呢？">
+<meta property="og:image" content="http://www.designerspics.com/wp-content/uploads/2014/12/chained_hands_free_photo1-690x457.jpg">
+<meta property="og:updated_time" content="2015-09-08T14:16:45.942Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何调整表单字段为中文并且改变显示顺序">
+<meta name="twitter:description" content="Django中利用forms.form或者ModelForm写表单，默认显示的标签名是英文，也就是字段名。如果想改成英文名怎么办呢？另外表单在模板使用forms.as_ul形式快速生成的，如果想调整字段顺序，怎么办呢？">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+          <a class="main-nav-link" href="/sideproject">个人项目</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <input type="text" class="st-default-search-input" />
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-Django如何调整表单字段为中文并且改变显示顺序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何调整表单字段为中文并且改变显示顺序
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/09/08/Django如何调整表单字段为中文并且改变显示顺序/" class="article-date">
+  <time datetime="2015-09-08T12:37:00.000Z" itemprop="datePublished">2015-09-08</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Django-forms/">Django forms</a>
+  </div>
+
+      
+        <div class="article-comment-link-wrap">
+          <a href="http://shawlang.github.io/2015/09/08/Django如何调整表单字段为中文并且改变显示顺序/#disqus_thread" class="article-comment-link">评论</a>
+        </div>
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://www.designerspics.com/wp-content/uploads/2014/12/chained_hands_free_photo1-690x457.jpg" alt="我被链条锁了？OK,it&#39;s magic time!"></p>
+<p>Django中利用forms.form或者ModelForm写表单，默认显示的标签名是英文，也就是字段名。如果想改成英文名怎么办呢？另外表单在模板使用<code>forms.as_ul</code>形式快速生成的，如果想调整字段顺序，怎么办呢？</p>
+<a id="more"></a>
+<h3 id="一、将Django表单字段设置为中文名">一、将Django表单字段设置为中文名</h3><p>一般表单字段是这样设置的：<code>author=forms.CharField(max_length=10)</code>。需要将字段显示为中文名，直接设置label=‘作者’就可以了。这个设置虽然简单，却加深了我对Django forms的理解。</p>
+<p>1.这是给表单字段设置初始值，如果没有设置就用默认的值，其实这就是函数传参</p>
+<p>2.表单引入forms是这样写的：<code>from Django import forms</code>，<code>from Django.forms import ModelForm</code>。forms首字母是小写，ModelForm，所以forms是一个实例，ModelForm是一个类。<code>forms.CharField()</code>是forms调用CharField()方法；<code>class Meta:</code>是一个内置的类，<code>model=Comment</code>是定义这个类的类属性。从这个类名Meta，也可以知道这个类用来定义类的元数据，有点像配置站点全局信息。很不错的编程思维。</p>
+<h3 id="二、调整Django表单字段在模板中显示顺序">二、调整Django表单字段在模板中显示顺序</h3><p>在模板中如果使用手动调整字段顺序不是不可以的，如：</p>
+<pre><code><span class="variable">&lt;p&gt;</span>{ {forms.author} }<span class="variable">&lt;/p&gt;</span>
+<span class="variable">&lt;p&gt;</span>{ {forms.created} }<span class="variable">&lt;/p&gt;</span>
+<span class="comment">#author和created表单字段顺序任意调</span>
+</code></pre><p>但是django中可以一次性生成表单，如：</p>
+<pre><code><span class="variable">&lt;form&gt;</span>
+   { {forms.as_ul} }
+<span class="variable">&lt;/form&gt;</span>
+<span class="comment">#很多表单的内容都被封装好了。</span>
+</code></pre><p>这时候可以在<code>forms.py</code>中定义表单字段时候使用<code>fields</code>属性调整。</p>
+<pre><code><span class="keyword">class</span> <span class="title">Meta</span>:
+    <span class="title">model</span>=Comment
+    fields=[<span class="string">'created'</span>,<span class="string">'author'</span>]
+<span class="preprocessor">#fields是个list，list是有顺序的。dict是无序的。</span>
+所以在fields里面确认表单字段的顺序也是有依据的。
+</code></pre><h3 id="三、总结">三、总结</h3><p>设置不复杂，但是可以学到Django的一些设计思维。</p>
+<h3 id="参考资料">参考资料</h3><p><a href="http://www.ccpt.cc/form_and_model_in_django/" target="_blank" rel="external">http://www.ccpt.cc/form_and_model_in_django/</a></p>
+
+      
+    </div>
+  
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/">Django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django-forms/">Django forms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django表单小技巧/">Django表单小技巧</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/09/12/JS事件委托及优势/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          JS事件委托及优势
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/09/08/Django模板中url标签的使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Django模板中url标签的用法&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 10月2日 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3242134977510351"
+     data-ad-slot="9186297966"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2015 shawlang&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+
+</footer>
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','hpwehiRPuuBriefhgg56','2.0.0');
+</script>
+    
+<script>
+  var disqus_developer=1;
+  var disqus_shortname = 'shawlang';
+  
+  var disqus_url = 'http://shawlang.github.io/2015/09/08/Django如何调整表单字段为中文并且改变显示顺序/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
